@@ -91,7 +91,7 @@ def favorites():
     if request.method == "GET":
         favorites = Favorite.query.get(1)
         if favorites is not None:
-            return jsonify(planets.serialize_just_user_fav())
+            return jsonify(favorites.serialize_just_user_fav())
     else:
         favorites = Favorite()
         favorites.fav_name = request.json.get("fav_name")
