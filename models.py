@@ -116,7 +116,7 @@ class Planets(db.Model):
 
 class Favorite(db.Model):
     __tablename__ = 'favorites'
-    id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable= False, primary_key=True)
+    id_user = db.Column(db.Integer, nullable= False, primary_key=True)
     id_fav = db.Column(db.Integer)
     fav_name = db.Column(db.String(250))
     fav_Section = db.Column(db.String(250))
