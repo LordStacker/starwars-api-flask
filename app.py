@@ -12,6 +12,26 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 app.config['ENV'] = "development"
 app.config['DEBUG'] = True
 
+db.init_app(app)
+migrate = Migrate(app, db)
+
+def user():
+    if request.method == "GET":
+        user = User.query.get(1)
+        if user is not None:
+            return jsonify(user.serialize_just_username())
+    else:
+        user = User()
+        user.name = request.json.get("name")
+        user.password = request.json.get("password")
+        user.email = request.json.get("email")
+        user.isActive = request.json.get("isActive")
+
+        db.session.add(user)
+        db.session.commit()
+
+    return jsonify(user.serialize()), 200
+
 
 if __name__ == "__main__":
     app.run(host='localhost', port=8080)
