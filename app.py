@@ -47,10 +47,10 @@ def vehicles():
         vehicles.consumables = request.json.get("consumables")
         vehicles.manufacturer = request.json.get("manufacturer")
 
-        db.session.add(user)
+        db.session.add(vehicles)
         db.session.commit()
 
-    return jsonify(user.serialize()), 200
+    return jsonify(vehicles.serialize())
 
 
 if __name__ == "__main__":

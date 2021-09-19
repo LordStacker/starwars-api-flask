@@ -29,10 +29,10 @@ class User(db.Model):
         }
 
 
-class Vehicles(Base):
+class Vehicles(db.Model):
     __tablename__ = 'vehicles'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Columndb.String(250), nullable = False)
+    name = db.Column(db.String(250), nullable = False)
     model=db.Column(db.String(250))
     crew=db.Column(db.Integer)
     manufacturer=db.Column(db.String(250))
@@ -58,7 +58,7 @@ class Vehicles(Base):
             'manufacturer': self.manufacturer
         }
 
-class Characters(Base):
+class Characters(db.Model):
     __tablename__ = 'characters'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
@@ -85,7 +85,7 @@ class Characters(Base):
         }
 
 
-class Planets(Base):
+class Planets(db.Model):
     __tablename__ = 'planets'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
@@ -114,12 +114,12 @@ class Planets(Base):
             'terrain': self.terrain
         }
 
-class Favorite(Base):
+class Favorite(db.Model):
     __tablename__ = 'favorites'
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable= False, primary_key=True)
-    id_fav = db.Column(db.Integer, db.ForeignKey('vehicles.id'), db.ForeignKey('characters.id'), db.ForeignKey('planets.id'))
-    fav_name = db.Column(db.String(250), ForeignKey('vehicles.name'), db.ForeignKey('characters.name'), db.ForeignKey('planets.name'))
-    fav_Section = db.Column(db.String(250), db.ForeignKey('vehicles.user'), db.ForeignKey('characters.user'), db.ForeignKey('planets.user'))
+    id_fav = db.Column(db.Integer)
+    fav_name = db.Column(db.String(250))
+    fav_Section = db.Column(db.String(250))
 
 
     def __repr__(self):
