@@ -51,7 +51,56 @@ def vehicles():
         db.session.commit()
 
     return jsonify(vehicles.serialize())
+@app.route("/characters", methods=["POST", "GET"])
+def characters():
+    if request.method == "GET":
+        characters = Characters.query.get(1)
+        if characters is not None:
+            return jsonify(characters.serializa_just_name_gender())
+    else:
+        characters = Characters()
+        characters.name = request.json.get("name")
+        characters.gender = request.json.get("gender")
+        characters.height = request.json.get("height")
+        characters.skin_color = request.json.get("skin_color")
 
+        db.session.add(characters)
+        db.session.commit()
+
+    return jsonify(characters.serialize())
+@app.route("/planets", methods=["POST", "GET"])
+def planets():
+    if request.method == "GET":
+        planets = Planets.query.get(1)
+        if planets is not None:
+            return jsonify(planets.serialize_name_terrain())
+    else:
+        planets = Planets()
+        planets.name = request.json.get("name")
+        planets.population = request.json.get("population")
+        planets.terrain = request.json.get("terrain")
+        planets.climate = request.json.get("climate")
+        planets.gravity = request.json.get("gravity")
+
+        db.session.add(planets)
+        db.session.commit()
+
+    return jsonify(planets.serialize())
+@app.route("/favorites", methods=["POST", "GET"])
+def favorites():
+    if request.method == "GET":
+        favorites = Favorite.query.get(1)
+        if favorites is not None:
+            return jsonify(planets.serialize_just_user_fav())
+    else:
+        favorites = Favorite()
+        favorites.fav_name = request.json.get("fav_name")
+        favorites.fav_Section = request.json.get("fav_section")
+
+        db.session.add(favorites)
+        db.session.commit()
+
+    return jsonify(favorites.serialize())
 
 if __name__ == "__main__":
     app.run(host='localhost', port=8080)
