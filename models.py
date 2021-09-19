@@ -48,6 +48,11 @@ class Vehicles(Base):
             'crew': self.email,
             'consumables': self.isActive,
         }
+    def serializa_just_name(self):
+        return{
+            'id': self.id,
+            'name': self.name
+        }
 
 class Characters(Base):
     __tablename__ = 'characters'
@@ -59,6 +64,20 @@ class Characters(Base):
     height = db.Column(db.Integer)
     skin_color = db.Column(db.String(250))
     birth_year = db.Column(db.String(250))
+
+    def serialize(self):
+        return{
+            'id': self.id,
+            'name': self.name,
+            'gender': self.gender,
+            'height': self.height
+        }
+    def serializa_just_name_gender(self):
+        return{
+            'id': self.id,
+            'gender': self.gender,
+            'name': self.name
+        }
 
 
 class Planets(Base):
@@ -76,8 +95,6 @@ class Planets(Base):
 
 class Favorite(Base):
     __tablename__ = 'favorites'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable= False, primary_key=True)
     id_fav = db.Column(db.Integer, db.ForeignKey('vehicles.id'), db.ForeignKey('characters.id'), db.ForeignKey('planets.id'))
     fav_name = db.Column(db.String(250), ForeignKey('vehicles.name'), db.ForeignKey('characters.name'), db.ForeignKey('planets.name'))
