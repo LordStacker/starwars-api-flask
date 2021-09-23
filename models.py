@@ -37,6 +37,8 @@ class Vehicles(db.Model):
     crew=db.Column(db.Integer)
     manufacturer=db.Column(db.String(250))
     consumables=db.Column(db.Integer)
+    favorite = db.relationship("Favorite",lazy=True)
+    favorite_id = db.Column(db.Integer, db.ForeignKey('favorites.id'))
 
     def __repr__(self):
         return "<Vehicles %r>" % self.id
@@ -65,6 +67,8 @@ class Characters(db.Model):
     gender = db.Column(db.String(250))
     height = db.Column(db.Integer)
     skin_color = db.Column(db.String(250))
+    favorite = db.relationship('Favorite',lazy=True)
+    favorite_id = db.Column(db.Integer, db.ForeignKey('favorites.id'))
 
     def __repr__(self):
         return "<Characters %r>" % self.id
@@ -93,6 +97,8 @@ class Planets(db.Model):
     terrain = db.Column(db.String(250))
     climate = db.Column(db.String(250))
     gravity = db.Column(db.String(250))
+    favorite = db.relationship("Favorite",lazy=True)
+    favorite_id = db.Column(db.Integer, db.ForeignKey('favorites.id'))
 
     def __repr__(self):
         return "<Planets %r>" % self.id
@@ -116,10 +122,11 @@ class Planets(db.Model):
 
 class Favorite(db.Model):
     __tablename__ = 'favorites'
-    id_user = db.Column(db.Integer, nullable= False, primary_key=True)
-    id_fav = db.Column(db.Integer)
-    fav_name = db.Column(db.String(250))
-    fav_Section = db.Column(db.String(250))
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(30))
+    favorite_name = db.Column(db.String(50))
+    user = db.relationship("User",backref=db.backref('user',lazy=True))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
     def __repr__(self):
@@ -127,14 +134,15 @@ class Favorite(db.Model):
 
     def serialize(self):
         return{
-            'id_user': self.id_user,
-            'id_fav': self.id_fav,
-            'fav_name': self.fav_name,
-            'fav_section': self.fav_Section
+            'id':self.id,
+            'category':self.category,
+            'favorite_name':self.favorite_name,
+            'user_id':self.user_id
         }
 
     def serialize_just_user_fav(self):
         return{
-            'id_user': self.id_user,
-            'fav_name': self.fav_name
+        'id': self.id,
+        'category': self.category,
+        'favorite_name':self.favorite_name
         }
